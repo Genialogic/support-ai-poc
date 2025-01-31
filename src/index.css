@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #1c1917;
+    --card: #ffffff;
+    --card-foreground: #1c1917;
+    --popover: #ffffff;
+    --popover-foreground: #1c1917;
+    --primary: #7c3aed;
+    --primary-hover: #672fc7;
+    --primary-foreground: #f0f9ff;
+    --secondary: #e2e8f0;
+    --secondary-hover: #96a0af;
+    --secondary-foreground: #1e293b;
+    --muted: #f6f7f8e5;
+    --muted-foreground: #64748b;
+    --accent: #e2e8f0;
+    --accent-foreground: #1e293b;
+    --destructive: #ef4444;
+    --destructive-foreground: #f0f9ff;
+    --border: #cbd5e1;
+    --input: #cbd5e1;
+    --ring: #7c3aed;
+    --radius: 0.5rem;
+    --chart-1: #e85d3f;
+    --chart-2: #178e65;
+    --chart-3: #154e65;
+    --chart-4: #f4b740;
+    --chart-5: #f4a024;
+  }
+
+  * {
+    border-color: var(--border);
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 99px;
+    }
+  }
+}
