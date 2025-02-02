@@ -1,10 +1,21 @@
-import { Bot, Menu, User } from "lucide-react";
-import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { Bot, Languages, Menu, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Outlet, useNavigate } from "react-router-dom";
 import "../../config/i18n.ts";
 
 export default function Dashboard() {
+  const { i18n } = useTranslation();
+  const [lang, setLang] = useState<string>(i18n.language); // Idioma atual
+  const langMenuRef = useRef<HTMLDivElement>(null); // Referência do menu de idiomas
+  const [langOpen, setLangOpen] = useState<boolean>(false); // Estado do menu de idiomas
+
+  const changeLanguage = (lang: string) => {
+    setLang(lang); // Atualiza o estado do idioma
+    i18n.changeLanguage(lang); // Muda o idioma
+  };
+
   const [menu, setMenu] = useState<boolean>(false);
   const redirect = useNavigate();
 
@@ -15,6 +26,33 @@ export default function Dashboard() {
       link: null,
     },
   ];
+
+  const langs = [
+    {
+      name: "Português&nbsp;(Brasil)",
+      lang: "pt",
+    },
+    {
+      name: "English",
+      lang: "en",
+    },
+  ];
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        langMenuRef.current &&
+        !langMenuRef.current.contains(event.target as Node)
+      ) {
+        setLangOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="w-screen h-screen flex flex-col md:flex-row bg-[var(--muted)] md:bg-[var(--background)]">
@@ -27,6 +65,29 @@ export default function Dashboard() {
         >
           <Menu size={24} />
         </motion.div>
+        {menu && (
+          <div
+            className="w-10 aspect-square rounded flex items-center justify-center transition hover:bg-neutral-100 text-neutral-500 hover:text-neutral-700 p-2 cursor-pointer relative"
+            onClick={() => setLangOpen(!langOpen)}
+            ref={langMenuRef}
+          >
+            {langOpen && (
+              <div className="absolute z-10 right-full top-0 -translate-x-2 bg-[var(--background)] border rounded-xl p-4 w-auto flex flex-col gap-2 z-30">
+                {langs.map((lan, index) => (
+                  <span
+                    className={`p-2 cursor-pointer select-none transition text-neutral-500 hover:text-neutral-900 ${
+                      lang === lan.lang && "font-semibold"
+                    }`}
+                    key={index}
+                    onClick={() => changeLanguage(lan.lang)}
+                    dangerouslySetInnerHTML={{ __html: lan.name }}
+                  ></span>
+                ))}
+              </div>
+            )}
+            <Languages size={20} />
+          </div>
+        )}
         <div className="hidden md:flex flex-row md:flex-col items-center gap-6">
           <div>
             <img
@@ -48,7 +109,28 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:flex flex-col gap-6 items-center">
+          <div
+            className="w-10 aspect-square rounded flex items-center justify-center transition hover:bg-neutral-100 text-neutral-500 hover:text-neutral-700 p-2 cursor-pointer relative"
+            onClick={() => setLangOpen(!langOpen)}
+            ref={langMenuRef}
+          >
+            {langOpen && (
+              <div className="absolute z-10 left-full bottom-0 translate-x-2 bg-[var(--background)] border rounded-xl p-4 w-auto flex flex-col gap-2">
+                {langs.map((lan, index) => (
+                  <span
+                    className={`p-2 cursor-pointer select-none transition text-neutral-500 hover:text-neutral-900 ${
+                      lang === lan.lang && "font-semibold"
+                    }`}
+                    key={index}
+                    onClick={() => changeLanguage(lan.lang)}
+                    dangerouslySetInnerHTML={{ __html: lan.name }}
+                  ></span>
+                ))}
+              </div>
+            )}
+            <Languages size={20} />
+          </div>
           <div className="w-12 h-12 bg-neutral-200 rounded-full flex justify-center items-center p-2 text-neutral-600 cursor-not-allowed">
             <User size={20} />
           </div>
@@ -57,7 +139,7 @@ export default function Dashboard() {
       <AnimatePresence>
         {menu && (
           <motion.div
-            className="md:hidden bg-[var(--muted)] w-full h-full fixed top-2/25 left-0 z-10 flex justify-center items-start backdrop-blur-xs"
+            className="md:hidden bg-[var(--muted)] w-full h-full fixed top-2/25 left-0 z-20 flex justify-center items-start backdrop-blur-xs"
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -100, opacity: 0 }}
