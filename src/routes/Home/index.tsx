@@ -1,5 +1,7 @@
-import { BrainCircuit, CircleStop, Send } from "lucide-react";
+import { CircleStop, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import Message from "../../components/Message";
+import Deepseek from "/src/images/deepseek.png";
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>("");
@@ -114,42 +116,33 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center relative">
+    <div className="w-full h-full md:h-full flex flex-col items-center md:relative">
       {messages.length === 0 && (
-        <div className="mt-20 text-center flex flex-col gap-2">
-          <h2 className="text-2xl text-neutral-500">
+        <div className="mt-20 text-center flex flex-col gap-0.5 md:gap-2">
+          <img
+            src={Deepseek}
+            className="aspect-square w-16 sm:w-20 mx-auto rounded-full border shadow mb-5"
+            alt=""
+          />
+          <h2 className="text-md sm:text-2xl text-neutral-500">
             Olá, eu sou o DeepSeek 👋
           </h2>
-          <h1 className="text-4xl font-semibold text-neutral-800">
+          <h1 className="text-2xl sm:text-4xl font-semibold text-neutral-800">
             Como posso te ajudar?
           </h1>
         </div>
       )}
 
       <div
-        className="w-3/4 flex flex-col gap-8 h-6/7 overflow-y-auto px-10"
+        className="w-full md:9/10 lg:w-4/5 xl:w-3/5 flex flex-col gap-8 max-h-17/20 overflow-y-auto px-2 md:px-20 xl:px-40"
         ref={chatRef}
       >
         {messages.map((message, index) => (
-          <div
-            className={`p-8 max-w-3/5 rounded-xl shadow-3xl ${
-              message.from === "user"
-                ? "ml-auto bg-[var(--background)]"
-                : " bg-purple-100"
-            }`}
-            key={index}
-          >
-            {!message.content && (
-              <span className="text-purple-500 flex gap-1 items-center">
-                <BrainCircuit size={16} /> Gerando...
-              </span>
-            )}
-            {message.content}
-          </div>
+          <Message key={index} message={message} index={index} />
         ))}
       </div>
 
-      <div className="w-200 absolute flex justify-between bottom-2 bg-[var(--background)] shadow-xl px-2 py-2 rounded-lg">
+      <div className="w-17/20 md:w-120 xl:w-200 absolute flex justify-between bottom-10 md:bottom-2 bg-[var(--background)] shadow-xl px-2 py-2 rounded-lg">
         <input
           type="text"
           className="w-full px-4 outline-transparent"
@@ -173,7 +166,7 @@ export default function Home() {
               </button>
             </div>
           )}
-          <div>
+          <div className="hidden md:block">
             <button
               className={`flex items-center justify-center gap-2 transition bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-[var(--background)] px-4 py-2 rounded-lg cursor-pointer ${
                 loading && "opacity-50 !cursor-not-allowed"
@@ -184,6 +177,19 @@ export default function Home() {
               <Send size={14} /> Enviar
             </button>
           </div>
+          {!loading && (
+            <div className="md:hidden">
+              <button
+                className={`flex items-center justify-center gap-2 transition bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-[var(--background)] px-4 py-2 rounded-lg cursor-pointer ${
+                  loading && "opacity-50 !cursor-not-allowed"
+                }`}
+                onClick={runPrompt}
+                disabled={loading}
+              >
+                <Send size={14} /> Enviar
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
