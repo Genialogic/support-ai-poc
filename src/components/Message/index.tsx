@@ -1,6 +1,7 @@
 import { BrainCircuit } from "lucide-react";
 import Deepseek from "/src/images/deepseek.png";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface MessageProps {
   message: {
@@ -11,6 +12,8 @@ interface MessageProps {
 }
 
 export default function Message({ message, index }: MessageProps) {
+  const { t } = useTranslation();
+
   return (
     <motion.div
       className={`p-8 w-full md:max-w-3/5 rounded-xl shadow-3xl relative ${
@@ -31,7 +34,7 @@ export default function Message({ message, index }: MessageProps) {
       )}
       {!message.content && (
         <span className="text-purple-500 flex gap-1 items-center">
-          <BrainCircuit size={16} /> Gerando...
+          <BrainCircuit size={16} /> {t("message_generating")}
         </span>
       )}
       {message.content}

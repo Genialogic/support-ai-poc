@@ -2,6 +2,7 @@ import { Bot, Menu, User } from "lucide-react";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import "../../config/i18n.ts";
 
 export default function Dashboard() {
   const [menu, setMenu] = useState<boolean>(false);

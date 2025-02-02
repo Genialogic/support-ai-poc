@@ -2,8 +2,11 @@ import { CircleStop, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Message from "../../components/Message";
 import Deepseek from "/src/images/deepseek.png";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
+
   const [prompt, setPrompt] = useState<string>("");
   const chatRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -125,10 +128,10 @@ export default function Home() {
             alt=""
           />
           <h2 className="text-md sm:text-2xl text-neutral-500">
-            Olá, eu sou o DeepSeek 👋
+            {t("introduction_title")}
           </h2>
           <h1 className="text-2xl sm:text-4xl font-semibold text-neutral-800">
-            Como posso te ajudar?
+            {t("introduction_description")}
           </h1>
         </div>
       )}
@@ -148,7 +151,7 @@ export default function Home() {
           className="w-full px-4 outline-transparent"
           value={prompt}
           onChange={(e) => !loading && setPrompt(e.target.value)}
-          placeholder="Digite o que está pensando..."
+          placeholder={t("prompt_placeholder")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               runPrompt();
@@ -174,7 +177,7 @@ export default function Home() {
               onClick={runPrompt}
               disabled={loading}
             >
-              <Send size={14} /> Enviar
+              <Send size={14} /> {t("prompt_send")}
             </button>
           </div>
           {!loading && (
@@ -186,7 +189,7 @@ export default function Home() {
                 onClick={runPrompt}
                 disabled={loading}
               >
-                <Send size={14} /> Enviar
+                <Send size={14} /> {t("prompt_send")}
               </button>
             </div>
           )}
