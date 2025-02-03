@@ -87,5 +87,5 @@ For any inquiries, suggestions, or feedback, don’t hesitate to reach out:
 <br /><br /><br />
 
 <div align="center">
-Made with ❤️ by **David Queiroz**.
+Made with ❤️ by David Queiroz.
 </div>
