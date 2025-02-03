@@ -36,7 +36,13 @@ cd DeepChat
 npm install
 ```
 
-3. Run Deepseek
+3. Run the Project
+
+```bash
+npm run dev
+```
+
+4. Run Deepseek
    > To use DeepSeek-R1, first install [Ollama](https://ollama.com/download). After installation, open a new terminal and execute the following command:
 
 ```bash
