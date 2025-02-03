@@ -24,13 +24,13 @@ export default function Home() {
     const { signal } = controllerRef.current;
 
     setLoading(true);
-    const response = await fetch("http://localhost:11434/api/generate", {
+    const response = await fetch(import.meta.env.VITE_AI_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "deepseek-r1:8b",
+        model: import.meta.env.VITE_AI_MODEL,
         prompt: message,
         stream: true, // Habilita o streaming
       }),

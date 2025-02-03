@@ -36,13 +36,22 @@ cd DeepChat
 npm install
 ```
 
-3. Run the Project
+3. Configuring .env
+   > Before running the project, check if the .env file exists at the root of the project. If it doesn't, you can create and configure it by providing information such as `AI_ENDPOINT` and `AI_MODEL` so that the system can communicate with DeepSeek.
+
+```bash
+VITE_AI_ENDPOINT=http://localhost:11434/api/generate # AI API endpoint, the ollama default is http://localhost:11434/api/generate
+
+VITE_AI_MODEL=deepseek-r1:8b # AI model name. The project was built using deepseek-r1:8b, but you can change it to any other model
+```
+
+4. Run the Project
 
 ```bash
 npm run dev
 ```
 
-4. Run Deepseek
+5. Run Deepseek
    > To use DeepSeek-R1, first install [Ollama](https://ollama.com/download). After installation, open a new terminal and execute the following command:
 
 ```bash
