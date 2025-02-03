@@ -1,50 +1,99 @@
-# React + TypeScript + Vite
+<div align="center">
+  
+# ![Deepchat-cover](https://github.com/Dnowdd/DeepChat/blob/main/public/deepchat-cover.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![GitHub Stars](https://img.shields.io/github/stars/Dnowdd/DeepChat?style=social)](https://github.com/Dnowdd/DeepChat/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Dnowdd/DeepChat?style=social)](https://github.com/Dnowdd/DeepChat/network/members)
 
-Currently, two official plugins are available:
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**DeepChat** is a local chatbot project integrated with a modern web interface, developed with React.js. The system utilizes the DeepSeek-R1 artificial intelligence model, processed via Ollama.
 
-## Expanding the ESLint configuration
+<br /><br /><br />
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 📸 Screenshots
 
-- Configure the top-level `parserOptions` property like this:
+<table border="0">
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_1.png" />
+    </td>
+    <td>
+      <img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_2.png" />
+    </td>
+  </tr>
+</table>
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+<br /><br /><br />
+
+## 🚀 Quick Start
+
+1. Clone the Repository
+   > Run the following command in the terminal to clone the project:
+
+```bash
+git clone https://github.com/Dnowdd/DeepChat.git
+
+cd DeepChat
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install Dependencies
+   > Make sure you have [Node.js](https://nodejs.org/en/download/current) installed on your machine. Then, install the project dependencies by running:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Run Deepseek
+   > To use DeepSeek-R1, first install [Ollama](https://ollama.com/download). After installation, open a new terminal and execute the following command:
+
+```bash
+ollama run deepseek-r1:8b
+```
+
+The 8b parameter refers to a model with 8 billion parameters. The higher the number of parameters, the greater the computational resource requirements, but also the more advanced the artificial intelligence will be. For more information on available models, refer to the official [DeepSeek documentation](https://ollama.com/library/deepseek-r1) on the Ollama website.
+
+<br /><br /><br />
+
+## ✨ Features
+
+- Switch between website languages: `en-us` and `pt-br`
+- Cancel AI text generation at any time
+- Fully responsive interface
+
+<br /><br /><br />
+
+## 🔜 Upcoming Features
+
+- Support for multiple chat sessions
+- Custom canvas for code snippets
+- Markdown support for text formatting
+- Enhanced input prompt for improved user experience
+
+<br /><br /><br />
+
+## 🤝 Contributing
+
+We encourage contributions from the open-source community. Feel free to submit issues, suggestions, or pull requests to help improve **DeepChat**.
+
+<br /><br /><br />
+
+## 📄 License
+
+**DeepChat** is distributed under the _MIT License_, allowing for open collaboration and modification.
+
+<br /><br /><br />
+
+## 📧 Contact
+
+For any inquiries, suggestions, or feedback, don’t hesitate to reach out:
+
+- Github: [Dnowdd](https://github.com/Dnowdd)
+- LinkedIn: [Dnowdd](https://www.linkedin.com/in/dnowdd/)
+- Email: [david.queiroz@dnowdd.com](mailto:david.queiroz@dnowdd.com)
+
+<br /><br /><br />
+
+<div align="center">
+Made with ❤️ by **David Queiroz**.
+</div>
