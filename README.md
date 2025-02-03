@@ -13,16 +13,8 @@
 
 ## 📸 Screenshots
 
-<table border="0">
-  <tr>
-    <td>
-      <img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_1.png" />
-    </td>
-    <td>
-      <img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_2.png" />
-    </td>
-  </tr>
-</table>
+<img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_1.png" />
+<img src="https://raw.githubusercontent.com/Dnowdd/DeepChat/main/public/print_2.png" />
 
 <br /><br /><br />
 
