@@ -10,12 +10,20 @@ export default function Home() {
   const [prompt, setPrompt] = useState<string>("");
   const chatRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<{ from: string; content: string }[]>(
-    []
+  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
+    [
+      {
+        role: "system",
+        content: `
+          You must only respond in Portuguese-Brazil.
+          You will respond as a support system for a birthday notification website named 'Lembretti', you can only answer questions related to technical issues, I want you to always indicate contacting via email to speak to an attendant, any question that is not related to support, you must respond that you do not know how to answer this type of question.
+          `,
+      },
+    ]
   );
   const controllerRef = useRef<AbortController | null>(null);
 
-  async function fetchOllamaDataWithStreaming(message: string) {
+  async function fetchOllamaDataWithStreaming(userMessage: string) {
     if (controllerRef.current) {
       controllerRef.current.abort(); // Cancela qualquer requisição anterior antes de iniciar uma nova
     }
@@ -31,7 +39,7 @@ export default function Home() {
       },
       body: JSON.stringify({
         model: import.meta.env.VITE_AI_MODEL,
-        prompt: message,
+        messages: [...messages, { role: "user", content: userMessage }],
         stream: true, // Habilita o streaming
       }),
       signal: signal, // Passa o signal para a requisição
@@ -43,19 +51,18 @@ export default function Home() {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    let done = false;
     let text = "";
     let textFormatted = "";
     let canWrite = false;
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { from: "bot", content: "" },
+      { role: "assistant", content: "" },
     ]);
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
 
       const chunk = decoder.decode(value, { stream: true });
 
@@ -69,22 +76,24 @@ export default function Home() {
           continue; // Pula para o próximo chunk, se não for um JSON válido
         }
 
-        if (jsonChunk.response) {
-          text += jsonChunk.response;
-
+        if (jsonChunk.message.content) {
+          text += jsonChunk.message.content;
           if (canWrite) {
-            textFormatted += jsonChunk.response;
+            textFormatted += jsonChunk.message.content;
             setMessages((prevMessages) => {
               const updatedMessages = [...prevMessages];
               updatedMessages[updatedMessages.length - 1] = {
-                from: "bot",
+                role: "assistant",
                 content: textFormatted,
               };
               return updatedMessages;
             });
           }
 
-          if (text.includes("\u003c/think\u003e")) {
+          if (
+            text.includes("\u003c/think\u003e") ||
+            text.includes("</think>")
+          ) {
             canWrite = true;
           }
         }
@@ -104,7 +113,7 @@ export default function Home() {
   const runPrompt = () => {
     if (prompt.trim() === "") return;
 
-    setMessages((prev) => [...prev, { from: "user", content: prompt }]);
+    setMessages((prev) => [...prev, { role: "user", content: prompt }]);
 
     setPrompt("");
 
@@ -120,7 +129,8 @@ export default function Home() {
 
   return (
     <div className="w-full h-full md:h-full flex flex-col items-center md:relative">
-      {messages.length === 0 && (
+      {messages.length <=
+        messages.filter((message) => message.role === "system").length && (
         <div className="mt-20 text-center flex flex-col gap-0.5 md:gap-2">
           <img
             src={Deepseek}
@@ -140,9 +150,12 @@ export default function Home() {
         className="w-full md:9/10 lg:w-4/5 xl:w-3/5 flex flex-col gap-8 max-h-17/20 overflow-y-auto px-2 md:px-20 xl:px-40"
         ref={chatRef}
       >
-        {messages.map((message, index) => (
-          <Message key={index} message={message} index={index} />
-        ))}
+        {messages.map(
+          (message, index) =>
+            message.role !== "system" && (
+              <Message key={index} message={message} index={index} />
+            )
+        )}
       </div>
 
       <div className="w-17/20 md:w-120 xl:w-200 absolute flex justify-between bottom-10 md:bottom-2 bg-[var(--background)] shadow-xl px-2 py-2 rounded-lg">
